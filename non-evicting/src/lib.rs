@@ -19,14 +19,13 @@ use std::hash::Hash;
 /// realistic policy for large or long-running computations.
 pub struct NonEvictingCache<K, I> {
     elems: HashMap<K, I>,
-    capacity: usize,
 }
 
 impl<K, I> NonEvictingCache<K, I> {
     /// Make a new non-evicting cache with the given *initial* capacity.
     pub fn new(capacity: usize) -> Self {
         let elems = HashMap::with_capacity(capacity);
-        NonEvictingCache { elems, capacity }
+        NonEvictingCache { elems }
     }
 
     /// Insert the given item into the cache at the given
@@ -73,7 +72,7 @@ impl<K, I> Cache<K> for NonEvictingCache<K, I> {
     }
 
     fn capacity(&self) -> Option<usize> {
-        Some(self.capacity)
+        None
     }
 }
 
