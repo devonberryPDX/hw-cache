@@ -11,11 +11,11 @@ use std::marker::PhantomData;
 
 /// A "cache" that does not cache anything. Useful
 /// for testing behavior with cache misses.
-pub struct NullCache <I>(PhantomData<I>);
+pub struct NullCache<I>(PhantomData<I>);
 
 impl<I> Default for NullCache<I> {
     fn default() -> Self {
-        NullCache {0: PhantomData}
+        NullCache { 0: PhantomData }
     }
 }
 
@@ -36,7 +36,7 @@ impl<K, I> Cache<K> for NullCache<I> {
 
     /// This cache has zero capacity.
     fn capacity(&self) -> Option<usize> {
-        todo!()
+        Some(0)
     }
 }
 
