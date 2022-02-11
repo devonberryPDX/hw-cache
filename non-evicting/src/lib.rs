@@ -30,14 +30,20 @@ impl<K, I> NonEvictingCache<K, I> {
 
     /// Insert the given item into the cache at the given
     /// key, replacing whatever was at that key.
-    pub fn insert(&mut self, key: K, item: I) {
-        todo!()
+    pub fn insert(&mut self, key: K, item: I)
+    where
+        K: Eq + Hash,
+    {
+        self.elems.insert(key, item);
     }
 
     /// Get a mutable reference to the item associated with
     /// the given key from the cache, if any.
-    pub fn retrieve(&mut self, key: &K) -> Option<&mut I> {
-        todo!()
+    pub fn retrieve(&mut self, key: &K) -> Option<&mut I>
+    where
+        K: Eq + Hash,
+    {
+        self.elems.get_mut(key)
     }
 
     /// Report the lack of a capacity limit for the cache.
@@ -57,10 +63,12 @@ fn test_non_evicting() {
     assert_eq!(Some(&mut 1), nev.retrieve(&"b"));
     assert_eq!(Some(&mut 2), nev.retrieve(&"c"));
     assert_eq!(Some(&mut 3), nev.retrieve(&"d"));
-    todo!()
+    let mut oldvalue = nev.retrieve(&"a").unwrap().clone();
+    nev.insert("a", 1u8);
+    assert_ne!(Some(&mut oldvalue), nev.retrieve(&"a"));
 }
 
-impl<K, I> Cache<K> for NonEvictingCache<K, I> {
+impl<K: std::hash::Hash + std::cmp::Eq, I> Cache<K> for NonEvictingCache<K, I> {
     type Item = I;
 
     fn insert(&mut self, key: K, item: Self::Item) {

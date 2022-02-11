@@ -53,7 +53,12 @@ impl<K: Hash + Eq + Clone, I> RrCache<K, I> {
         let rng = Rng::with_seed(0x12345678);
         let map = HashMap::with_capacity(capacity);
         let elems = Vec::with_capacity(capacity);
-        RrCache { map, elems, capacity, rng }
+        RrCache {
+            map,
+            elems,
+            capacity,
+            rng,
+        }
     }
 
     /// Insert an item into the cache, replacing a random

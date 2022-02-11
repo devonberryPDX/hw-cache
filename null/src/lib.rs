@@ -36,7 +36,7 @@ impl<K, I> Cache<K> for NullCache<I> {
 
     /// This cache has zero capacity.
     fn capacity(&self) -> Option<usize> {
-        Some(0)
+        None
     }
 }
 
