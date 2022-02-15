@@ -37,7 +37,8 @@ where
 {
     fn advance_time(&mut self) -> u64 {
         let t = self.time;
-        // XXX Comment this.
+        // This is because if an unsigned integer is subtracted past zero, it will underflow and wrap to the highest
+        // unsigned integer value which is not the behavior we want.
         self.time = t.checked_sub(1).unwrap();
         t
     }
@@ -65,7 +66,8 @@ where
             // Find an index for the item in the store and
             // save it there. No need to evict, since
             // there's still room.
-            todo!()
+            self.store.push(item);
+            self.store.len() - 1
         } else {
             let (_, (t0, index)) = self.usage.pop().unwrap();
             assert!(t0 > t);
