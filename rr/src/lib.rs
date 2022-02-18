@@ -69,7 +69,9 @@ impl<K: Hash + Eq + Clone, I> RrCache<K, I> {
             self.elems.push((key.clone(), item));
             n
         } else {
-            todo!()
+            self.elems.remove(self.rng.usize(0..n));
+            self.elems.push((key.clone(), item));
+            n
         };
         self.map.insert(key, i);
     }
@@ -78,7 +80,11 @@ impl<K: Hash + Eq + Clone, I> RrCache<K, I> {
     pub fn retrieve(&mut self, key: &K) -> Option<&mut I> {
         let &i = self.map.get(key)?;
         let (ref ekey, ref mut item) = self.elems[i];
-        todo!()
+        if ekey == key {
+            Some(item)
+        } else {
+            None
+        }
     }
 
     /// Report the capacity of the cache.

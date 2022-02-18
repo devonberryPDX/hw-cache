@@ -67,7 +67,7 @@ where
             // save it there. No need to evict, since
             // there's still room.
             self.store.push(item);
-            self.store.len() - 1
+            n
         } else {
             let (_, (t0, index)) = self.usage.pop().unwrap();
             assert!(t0 > t);
